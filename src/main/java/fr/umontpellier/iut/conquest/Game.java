@@ -124,7 +124,7 @@ public class Game {
      * Teste si la partie est finie.
      * Rappel :
      * - La partie est finie quand il n'y a plus de case libre.
-     * - La partie est finie quand l'un des deux joueurs n'a plus de pions.
+     * - La partie est finie quand l'un des deux joueurs n'a plus de pions. oui
      */
     public boolean isFinished() {
         throw new RuntimeException("Not implemented");
