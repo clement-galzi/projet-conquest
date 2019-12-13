@@ -77,8 +77,7 @@ public class Board {
      * - player1 commence le jeu avec un pion en haut à gauche (0,0) et un pion en bas à droite.
      * - player2 commence le jeu avec un pion en haut à droite et un pion en bas à gauche.
      */
-    public void initField(Player player1, Player player2) {
-        throw new RuntimeException("Not implemented") ;
+    public void initField(Player player1, Player player2) {throw new RuntimeException("Not implemented");
     }
 
     /**
