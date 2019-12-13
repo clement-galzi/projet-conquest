@@ -111,7 +111,7 @@ public class Board {
      * S'il n'y a de coup valide, retourne une liste vide.
      */
     public List<Move> getValidMoves(Player player) {
-        throw new RuntimeException("Not implemented");
+        throw new RuntimeException("Not implemented" );
     }
 
     /**
