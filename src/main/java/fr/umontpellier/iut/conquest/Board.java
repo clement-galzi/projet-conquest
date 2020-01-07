@@ -77,7 +77,18 @@ public class Board {
      * - player1 commence le jeu avec un pion en haut à gauche (0,0) et un pion en bas à droite.
      * - player2 commence le jeu avec un pion en haut à droite et un pion en bas à gauche.
      */
-    public void initField(Player player1, Player player2) {throw new RuntimeException("Not implemented");
+    public void initField(Player player1, Player player2) {
+        int l=field.length;
+        for (int i=0;i<l;i++) {
+            for (int j=0;j<l;j++) {
+                field[i][j]=null;
+            }
+        }
+
+        field[0][0] = new Pawn(player1);
+        field[l-1][l-1] = new Pawn(player1);
+        field[0][l-1] = new Pawn(player2);
+        field[l-1][0] = new Pawn(player2);
     }
 
     /**
