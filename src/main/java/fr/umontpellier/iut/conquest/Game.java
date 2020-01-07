@@ -109,8 +109,8 @@ public class Game {
     /**
      * Initialise le jeu.
      */
-    private void initGame() {
-        throw new RuntimeException("Not implemented");
+    private void initGame(){
+        this.board.initField(this.players[0],this.players[1]);
     }
 
     /**
