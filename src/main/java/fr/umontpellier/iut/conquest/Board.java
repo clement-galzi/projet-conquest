@@ -1,5 +1,6 @@
 package fr.umontpellier.iut.conquest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,7 +79,19 @@ public class Board {
      * - player2 commence le jeu avec un pion en haut à droite et un pion en bas à gauche.
      */
     public void initField(Player player1, Player player2) {
-        throw new RuntimeException("Not implemented");
+        int l=field.length;
+
+        for (int i=0;i<l;i++) {
+            for (int j=0;j<l;j++) {
+                field[i][j]=null;
+            }
+        }
+
+        field[0][0] = new Pawn(player1);
+        field[l-1][l-1] = new Pawn(player1);
+        field[0][l-1] = new Pawn(player2);
+        field[l-1][0] = new Pawn(player2);
+
     }
 
     /**
@@ -90,7 +103,33 @@ public class Board {
      * - La distance entre la case d'arrivée est au plus 2.
      */
     public boolean isValid(Move move, Player player) {
-        throw new RuntimeException("Not implemented");
+        int lengthB = field.length;
+
+        if (((0 <= move.getRow1()) && (move.getRow1() < lengthB) &&
+                (0 <= move.getColumn1()) && (move.getColumn1() < lengthB))) {
+            if (((0 <= move.getRow2()) && (move.getRow2() < lengthB) &&
+                    (0 <= move.getColumn2()) && (move.getColumn2() < lengthB))) {
+                if (field[move.getRow1()][move.getColumn1()] != null) {
+                    if (field[move.getRow1()][move.getColumn1()].getPlayer().equals(player)) {
+                        if (field[move.getRow2()][move.getColumn2()]==null) {
+                            return !(Math.abs(move.getRow1() - move.getRow2()) > 2) && !(Math.abs(move.getColumn1() - move.getColumn2()) > 2);
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+
     }
 
     /**
@@ -103,7 +142,24 @@ public class Board {
      *             - Dans tous les cas, une fois que le pion est déplacé, tous les pions se trouvant dans les cases adjacentes à sa case d'arrivée prennent sa couleur.
      */
     public void movePawn(Move move) {
-        throw new RuntimeException("Not implemented");
+        Pawn depart = field[move.getRow1()][move.getColumn1()];
+        if (Math.abs(move.getRow1() - move.getRow2()) >= 2 || Math.abs(move.getColumn1() - move.getColumn2()) >= 2) {
+            field[move.getRow1()][move.getColumn1()] = null;
+            field[move.getRow2()][move.getColumn2()] = new Pawn(depart.getPlayer());
+        } else {
+            field[move.getRow2()][move.getColumn2()] = new Pawn(depart.getPlayer());
+        }
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 2; j++) {
+                if (0 <= move.getRow2() - 1 + i && move.getRow2() - 1 + i < field.length && 0 <= move.getColumn2() - 1 + j && move.getColumn2() - 1 + j < field.length) {
+                    if (field[move.getRow2() - 1 + i][move.getColumn2() - 1 + j] != null) {
+                        field[move.getRow2() - 1 + i][move.getColumn2() - 1 + j] = new Pawn(depart.getPlayer());
+                    }
+
+                }
+            }
+
+        }
     }
 
     /**
@@ -111,13 +167,47 @@ public class Board {
      * S'il n'y a de coup valide, retourne une liste vide.
      */
     public List<Move> getValidMoves(Player player) {
-        throw new RuntimeException("Not implemented");
+
+        int length = field.length;
+        ArrayList<Move> validMov = new ArrayList<Move>();
+        Move moveA;
+
+        for (int i=0;i<length;i++) {
+            for (int j=0;j<length;j++) {
+                if (field[i][j]!=null) {
+                    if (field[i][j].getPlayer().equals(player)) {
+                        for (int k=0;k<=4;k++) {
+                            for (int l=0;l<=4;l++) {
+                                moveA = new Move(i,j,i-2+k,i-2+l);
+                                if (this.isValid(moveA,player)) {
+                                    validMov.add(moveA);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    return validMov;
     }
 
     /**
      * Retourne le nombre de pions d'un joueur.
      */
     public int getNbPawns(Player player) {
-        throw new RuntimeException("Not implemented");
+        int length = field.length;
+        int nbPawn=0;
+        for (int i=0;i<length;i++) {
+            for (int j=0;j<length;j++) {
+                if (field[i][j]!=null) {
+                    if (field[i][j].getPlayer().equals(player)) {
+                        nbPawn++;
+                    }
+                }
+            }
+        }
+        return nbPawn;
     }
 }
