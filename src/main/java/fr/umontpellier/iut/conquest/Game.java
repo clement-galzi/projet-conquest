@@ -134,7 +134,7 @@ public class Game {
      * - La partie est finie quand l'un des deux joueurs n'a plus de pions.
      */
     public boolean isFinished() {
-        throw new RuntimeException("Not implemented");
+        return board.getNbPawns(players[0])==0 || board.getNbPawns(players[1])==0 || board.getSize()*board.getSize()==board.getNbPawns(players[1])+board.getNbPawns(players[0]);
     }
 
     /**
