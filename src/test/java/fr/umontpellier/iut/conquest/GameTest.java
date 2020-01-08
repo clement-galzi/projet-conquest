@@ -117,6 +117,7 @@ class GameTest {
 
         // Undo player1 first move
         input = input + "1 ";
+
         /*
          * __0_1_2
          * 0|X _ O

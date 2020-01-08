@@ -3,6 +3,7 @@ package fr.umontpellier.iut.conquest;
 import fr.umontpellier.iut.conquest.strategies.Strategy;
 
 import java.io.InputStream;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 /**
@@ -24,12 +25,19 @@ public class Game {
     private Player[] players = new Player[2];
 
     /**
+     * Le caretaker des mementos pour pouvoir revenir en arrière
+     */
+
+    private BoardCaretaker boardCaretaker;
+
+    /**
      * Constructeur.
      * Crée un plateau à partir de sa taille (impaire).
      * Crée les joueurs à partir de leur stratégie et leur nom.
      */
     public Game(int size, Strategy strategy1, String name1, Strategy strategy2, String name2) {
         board = new Board(size);
+        boardCaretaker = new BoardCaretaker();
         players[0] = new Player(strategy1, this, name1, 1);
         players[1] = new Player(strategy2, this, name2, 2);
     }
@@ -41,6 +49,7 @@ public class Game {
      */
     public Game(Board board, Strategy strategy1, String name1, Strategy strategy2, String name2) {
         this.board = board;
+        boardCaretaker = new BoardCaretaker();
         players[0] = new Player(strategy1, this, name1, 1);
         players[1] = new Player(strategy2, this, name2, 2);
     }
@@ -96,6 +105,8 @@ public class Game {
                 player = confirmOrUndoMove(player);
             }
             // Change de joueur.
+            BoardMemento memento = board.saveToMemento();
+            boardCaretaker.addMemento(memento);
             player = getOtherPlayer(player);
         }
 
@@ -111,6 +122,8 @@ public class Game {
      */
     private void initGame() {
         this.board.initField(this.players[0],this.players[1]);
+        BoardMemento memento = board.saveToMemento();
+        boardCaretaker.addMemento(memento);
     }
 
     /**
@@ -160,7 +173,32 @@ public class Game {
      * @return Player : le joueur dont il est le tour de jouer.
      */
     private Player confirmOrUndoMove(Player player) {
-        throw new RuntimeException("Not implemented");
+        System.out.println("Confirmer (0) ou annuler (1) le mouvement ?");
+        int mode = scan.nextInt();
+        scan.nextLine();
+        while (mode !=1 && mode != 0){
+            System.out.println("Confirmer (0) ou annuler (1) le mouvement, entrez un nombre valide ?");
+            mode = scan.nextInt();
+            scan.nextLine();
+        }
+        while (mode == 1) {
+            BoardMemento memento= this.boardCaretaker.getMemento();
+            this.board.undoFromMemento(memento);
+            if (boardCaretaker.getSize()==1){
+                return this.getOtherPlayer(player);
+            }
+            System.out.println(this.board.toString());
+            System.out.println("Confirmer (0) ou annuler (1) le mouvement?");
+            mode = scan.nextInt();
+            scan.nextLine();
+            player = this.getOtherPlayer(player);
+
+        }
+        player.getGame().board = board;
+        player.getGame().boardCaretaker = boardCaretaker;
+
+        return player;
+
     }
 }
 

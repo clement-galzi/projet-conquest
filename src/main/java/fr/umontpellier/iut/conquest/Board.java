@@ -30,6 +30,16 @@ public class Board {
         this.field = field;
     }
 
+    public Board(Board b){
+        Pawn[][] tab = b.getField();
+        this.field = new Pawn[tab.length][tab.length];
+        for(int i=0;i<tab.length;i++){
+            for (int j=0;j<tab.length;j++){
+                this.field[i][j]=tab[i][j];
+            }
+        }
+    }
+
     /**
      * Les méthodes suivantes sont utilisées pour les tests automatiques. Il ne faut pas les utiliser.
      */
@@ -43,6 +53,7 @@ public class Board {
     public int getSize() {
         return field.length;
     }
+
 
     /**
      * Affiche le plateau.
@@ -209,5 +220,27 @@ public class Board {
             }
         }
         return nbPawn;
+    }
+
+    /**
+     * Fonctions associées au memento (pour récupérer les board précedents)
+     */
+
+    /**
+     * Fonction qui ajoute un board au memento
+     * @return le memento créé
+     */
+    public BoardMemento saveToMemento() {
+        Board boardBis = new Board(this);
+        return new BoardMemento(boardBis.field);
+    }
+
+    /**
+     * donne à board le tableau du memento passé en paramètre
+     * @param memento
+     */
+    public void undoFromMemento(BoardMemento memento)
+    {
+        this.field = memento.getField();
     }
 }
