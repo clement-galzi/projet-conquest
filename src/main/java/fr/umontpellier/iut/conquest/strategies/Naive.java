@@ -5,6 +5,7 @@ import fr.umontpellier.iut.conquest.Move;
 import fr.umontpellier.iut.conquest.Player;
 
 import java.util.List;
+import java.util.Random;
 
 public class Naive implements Strategy {
     @Override
@@ -15,8 +16,10 @@ public class Naive implements Strategy {
             return null;
         }
         else{
-            mouvement.get(0).toString();
-            return mouvement.get(0);
+            Random r = new Random();
+            int valeur = r.nextInt((mouvement.size() - 1));
+            //mouvement.get(0).toString();
+            return mouvement.get(valeur);
         }
     }
 }

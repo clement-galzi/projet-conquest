@@ -187,9 +187,9 @@ public class Board {
             for (int j=0;j<length;j++) {
                 if (field[i][j]!=null) {
                     if (field[i][j].getPlayer().equals(player)) {
-                        for (int k=0;k<=4;k++) {
-                            for (int l=0;l<=4;l++) {
-                                moveA = new Move(i,j,i-2+k,i-2+l);
+                        for (int k=0;k<length;k++) {
+                            for (int l=0;l<length;l++) {
+                                moveA = new Move(i,j,k,l);
                                 if (this.isValid(moveA,player)) {
                                     validMov.add(moveA);
                                 }

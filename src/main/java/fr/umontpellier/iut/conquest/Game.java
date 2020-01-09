@@ -190,9 +190,9 @@ public class Game {
                 if(mode == 0){
                     return player;
                 }
+                vide = boardCaretaker.getSize()==1;
                 this.board.undoFromMemento(this.boardCaretaker.getMemento());
                 player = this.getOtherPlayer(player);
-                vide = boardCaretaker.getSize()==1;
             }
         }
         return player;
