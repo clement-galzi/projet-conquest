@@ -21,7 +21,6 @@ class GameTest {
 
             }
         }));
-
     }
 
     void set_input(String input) {

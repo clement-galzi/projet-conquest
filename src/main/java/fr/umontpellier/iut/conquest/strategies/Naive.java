@@ -15,6 +15,7 @@ public class Naive implements Strategy {
             return null;
         }
         else{
+            mouvement.get(0).toString();
             return mouvement.get(0);
         }
     }

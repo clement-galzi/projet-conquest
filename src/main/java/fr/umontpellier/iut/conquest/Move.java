@@ -70,4 +70,13 @@ public class Move {
         return ((this.row1 == m.row1) && (this.column1 == m.column1) && (this.row2 == m.row2) && (this.column2 == m.column2));
     }
 
+    @Override
+    public String toString() {
+        return "Move{" +
+                "row1=" + row1 +
+                ", column1=" + column1 +
+                ", row2=" + row2 +
+                ", column2=" + column2 +
+                '}';
+    }
 }

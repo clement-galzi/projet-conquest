@@ -173,30 +173,28 @@ public class Game {
      * @return Player : le joueur dont il est le tour de jouer.
      */
     private Player confirmOrUndoMove(Player player) {
+        boolean vide = false;
         System.out.println("Confirmer (0) ou annuler (1) le mouvement ?");
         int mode = scan.nextInt();
-        scan.nextLine();
-        while (mode !=1 && mode != 0){
-            System.out.println("Confirmer (0) ou annuler (1) le mouvement, entrez un nombre valide ?");
-            mode = scan.nextInt();
-            scan.nextLine();
+        if(mode==0){
+            return player;
         }
-        while (mode == 1) {
-            BoardMemento memento= this.boardCaretaker.getMemento();
-            this.board.undoFromMemento(memento);
-            if (boardCaretaker.getSize()==1){
-                return this.getOtherPlayer(player);
-            }
-            System.out.println(this.board.toString());
-            System.out.println("Confirmer (0) ou annuler (1) le mouvement?");
-            mode = scan.nextInt();
-            scan.nextLine();
+        else{
+            this.board.undoFromMemento(this.boardCaretaker.getMemento());
             player = this.getOtherPlayer(player);
-
+            vide = boardCaretaker.getSize()==1;
+            while (mode == 1 && vide != true) {
+                System.out.println(this.board.toString());
+                System.out.println("Confirmer (0) ou annuler (1) le mouvement?");
+                mode = scan.nextInt();
+                if(mode == 0){
+                    return player;
+                }
+                this.board.undoFromMemento(this.boardCaretaker.getMemento());
+                player = this.getOtherPlayer(player);
+                vide = boardCaretaker.getSize()==1;
+            }
         }
-        player.getGame().board = board;
-        player.getGame().boardCaretaker = boardCaretaker;
-
         return player;
 
     }
