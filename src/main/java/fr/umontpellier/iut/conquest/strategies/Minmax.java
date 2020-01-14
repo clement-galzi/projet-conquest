@@ -68,7 +68,6 @@ public class Minmax implements Strategy {
                 board.movePawn(move);
                 int valeur = Minmax(profondeur-1,joueurCourant.getGame().getOtherPlayer(joueurCourant),board,true);
                 value = min(value,valeur);
-                //System.out.println(value);
             }
         }
         return value;
