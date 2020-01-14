@@ -19,10 +19,12 @@ public class Minmax implements Strategy {
         List<Move> moveValid = board.getValidMoves(player);
         Move mouvement = moveValid.get(0);
         int valeur = Integer.MIN_VALUE;
-        Board boardCourant = new Board(board);
+        int res = 0;
         for(Move move : moveValid) {
             System.out.println(move.toString());
-            int res = Minmax(this.IALevel-1,player,boardCourant,true);
+            Board boardCourant = new Board(board);
+            boardCourant.movePawn(move);
+            res = Minmax(this.IALevel-1,player,boardCourant,true);
             System.out.println(res);
             if ( res > valeur){
                 valeur = res;
@@ -36,12 +38,8 @@ public class Minmax implements Strategy {
     public int Minmax (int profondeur, Player joueurCourant, Board boardCourant, boolean joueurActuel) {
         List<Move> mouvement = boardCourant.getValidMoves(joueurCourant);
         int value = 0;
-        if (profondeur == 0){
-            for (Move move : mouvement) {
-                Board board = new Board(boardCourant);
-                board.movePawn(move);
-                return board.evaluer(joueurCourant);
-            }
+        if (profondeur == 0 || mouvement.isEmpty()){
+            return boardCourant.evaluer(joueurCourant);
         }
         if (joueurActuel) {
             value = Integer.MIN_VALUE;
