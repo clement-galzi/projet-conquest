@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.conquest;
 
 import fr.umontpellier.iut.conquest.strategies.Human;
+import fr.umontpellier.iut.conquest.strategies.Minmax;
 import fr.umontpellier.iut.conquest.strategies.Naive;
 import fr.umontpellier.iut.conquest.strategies.Strategy;
 
@@ -111,6 +112,18 @@ public class AppConquest {
     private static Strategy defineStrategies(int AILevel) {
         if (AILevel==0){
             return new Naive();
+        }
+        else if (AILevel == 1){
+            return new Minmax(1);
+        }
+        else if (AILevel == 2){
+            return new Minmax(2);
+        }
+        else if (AILevel == 3){
+            return new Minmax(3);
+        }
+        else if (AILevel == 4){
+            return new Minmax(4);
         }
         else{
             return null;

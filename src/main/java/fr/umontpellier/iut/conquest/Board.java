@@ -223,6 +223,15 @@ public class Board {
     }
 
     /**
+     *
+     * @param player
+     * @return l'évaluation de l'étape comme demandé avec Minmax (nbPaws player - nbPaws Other player)
+     */
+    public int evaluer (Player player){
+        return this.getNbPawns(player) - this.getNbPawns(player.getGame().getOtherPlayer(player));
+    }
+
+    /**
      * Fonctions associées au memento (pour récupérer les board précedents)
      */
 
