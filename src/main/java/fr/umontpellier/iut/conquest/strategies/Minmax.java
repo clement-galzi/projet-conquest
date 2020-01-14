@@ -19,19 +19,30 @@ public class Minmax implements Strategy {
         List<Move> moveValid = board.getValidMoves(player);
         Move mouvement = moveValid.get(0);
         int valeur = Integer.MIN_VALUE;
+        if (this.IALevel%2 == 0){
+            valeur = Integer.MAX_VALUE;
+        }
         int res = 0;
         for(Move move : moveValid) {
-            System.out.println(move.toString());
+            //System.out.println(move.toString());
             Board boardCourant = new Board(board);
             boardCourant.movePawn(move);
             res = Minmax(this.IALevel-1,player,boardCourant,true);
-            System.out.println(res);
-            if ( res > valeur){
-                valeur = res;
-                mouvement = move;
+            //System.out.println(res);
+            if (this.IALevel%2 == 0){
+                if ( res < valeur){
+                    valeur = res;
+                    mouvement = move;
+                }
+            }
+            else{
+                if ( res > valeur){
+                    valeur = res;
+                    mouvement = move;
+                }
             }
         }
-        System.out.println(mouvement.toString());
+        //System.out.println(mouvement.toString());
         return mouvement;
     }
 
@@ -46,7 +57,8 @@ public class Minmax implements Strategy {
             for (Move move : mouvement) {
                 Board board = new Board(boardCourant);
                 board.movePawn(move);
-                value = max(value,Minmax(profondeur-1,joueurCourant.getGame().getOtherPlayer(joueurCourant),board,false));
+                int valeur = Minmax(profondeur-1,joueurCourant.getGame().getOtherPlayer(joueurCourant),board,false);
+                value = max(value,valeur);
             }
         }
         else{
@@ -54,7 +66,9 @@ public class Minmax implements Strategy {
             for (Move move : mouvement) {
                 Board board = new Board(boardCourant);
                 board.movePawn(move);
-                value = min(value,Minmax(profondeur-1,joueurCourant.getGame().getOtherPlayer(joueurCourant),board,true));
+                int valeur = Minmax(profondeur-1,joueurCourant.getGame().getOtherPlayer(joueurCourant),board,true);
+                value = min(value,valeur);
+                //System.out.println(value);
             }
         }
         return value;
